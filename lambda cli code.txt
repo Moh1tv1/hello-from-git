@@ -1,0 +1,1 @@
+aws lambda create-function --function-name lambdaregion --runtime python3.9 --handler lambda_function.lambda_handler --role arn:aws:iam::577573027390:role/lambda-ec2-sns --zip-file fileb://C:/Users/Mohit/Desktop/lambda_function.zip

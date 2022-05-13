@@ -1,0 +1,168 @@
+{
+    "AWSTemplateFormatVersion" : "2010-09-09",
+    "Parameters" : {
+      "Subnetid" : {
+        "Type" : "String"
+      }
+    },
+    "Resources" : {
+        "ECSCluster": {
+            "Type": "AWS::ECS::Cluster",
+            "Properties": {
+                "ClusterName": "MyFargateCluster",
+                "CapacityProviders": ["FARGATE"]}
+    },
+    "taskdefinition": {
+        "Type": "AWS::ECS::TaskDefinition",
+        "Properties" : {
+          "ExecutionRoleArn" : { "Ref" : "ECSRole"},
+          "NetworkMode" : "awsvpc",
+          "RequiresCompatibilities" : ["FARGATE"],
+          "ContainerDefinitions" : [
+          {
+            "Name": "CFN-containerDEF",
+            "Image":"577573027390.dkr.ecr.ap-south-1.amazonaws.com/test"}],
+            "Cpu" : 256,
+            "Memory" : 512
+          }
+        },
+        "Service" : {
+          "Type" : "AWS::ECS::Service",
+          "Properties" : {
+            "LaunchType" : "FARGATE",
+            "TaskDefinition" : { "Ref" : "taskdefinition"} ,
+            "ServiceName" : "CFN-Service",
+            "Cluster" : { "Ref" : "ECSCluster"},
+            "DesiredCount" : 1,
+            "NetworkConfiguration" : {
+              "AwsvpcConfiguration" : {
+                "AssignPublicIp" : "ENABLED",
+                "Subnets" : [{ "Ref" : "Subnetid"}]
+              }
+            }
+    
+    
+          }
+        },
+    "ECSRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+          "AssumeRolePolicyDocument": {
+            "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "ecs-tasks.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+          },
+          "Path": "/",
+          "Policies": [
+              {
+                  "PolicyName": "root",
+                  "PolicyDocument": {
+                      "Version": "2012-10-17",
+                      "Statement": [
+                          {
+                              "Effect": "Allow",
+                              "Action": "*",
+                              "Resource": "*"
+                          }
+                      ]
+                  }
+              }
+          ]
+          }}
+      
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        }
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        }
+
+
+
+
